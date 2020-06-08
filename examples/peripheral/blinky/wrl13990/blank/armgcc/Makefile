@@ -134,7 +134,7 @@ include $(TEMPLATE_PATH)/Makefile.common
 
 $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
-.PHONY: flash erase
+.PHONY: flash erase gdbflash gdberase gdb
 
 # Flash the program
 flash: default
@@ -149,3 +149,21 @@ SDK_CONFIG_FILE := ../config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar
 sdk_config:
 	java -jar $(CMSIS_CONFIG_TOOL) $(SDK_CONFIG_FILE)
+
+
+# support Black Magic Probe programming via GDB
+GDB=$(GNU_INSTALL_ROOT)/$(GNU_PREFIX)-gdb
+
+# auto-detect BMP on macOS, otherwise have to specify
+BMP_PORT ?= $(shell ls -1 /dev/cu.usbmodem????????1 | head -1)
+GDB_BMP = $(GDB) -ex 'target extended-remote $(BMP_PORT)' -ex 'monitor swdp_scan' -ex 'attach 1'
+
+gdbflash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
+	@echo Flashing: $<
+	@$(GDB_BMP) -nx --batch -ex 'load $<' -ex 'compare-sections' -ex 'kill'
+
+gdberase:
+	@$(GDB_BMP) -nx --batch -ex 'monitor erase_mass' -ex 'kill'
+
+gdb:	$(OUTPUT_DIRECTORY)/nrf52832_xxaa.out
+	@$(GDB_BMP) $<
