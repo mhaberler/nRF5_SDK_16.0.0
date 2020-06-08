@@ -79,6 +79,8 @@
   #include "d52_starterkit.h"
 #elif defined (BOARD_ARDUINO_PRIMO)
   #include "arduino_primo.h"
+#elif defined (BOARD_WRL13990)
+  #include "wrl13990.h"
 #elif defined (CUSTOM_BOARD_INC)
   #include STRINGIFY(CUSTOM_BOARD_INC.h)
 #elif defined(BOARD_CUSTOM)
