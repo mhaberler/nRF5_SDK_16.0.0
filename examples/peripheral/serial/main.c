@@ -56,6 +56,11 @@
 #include "app_util.h"
 #include "boards.h"
 
+#ifndef UART_PIN_DISCONNECTED
+#include "app_uart.h"
+#endif
+
+
 /** @file
  * @defgroup nrf_serial_example main.c
  * @{
