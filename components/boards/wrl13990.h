@@ -81,6 +81,10 @@ extern "C" {
 #define HWFC           false
 
 
+// Arduino board mappings
+#define ARDUINO_SCL_PIN             20    // SCL signal pin
+#define ARDUINO_SDA_PIN             22    // SDA signal pin
+
 #ifdef __cplusplus
 }
 #endif
