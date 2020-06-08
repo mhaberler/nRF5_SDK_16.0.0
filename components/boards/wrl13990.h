@@ -76,6 +76,8 @@ extern "C" {
 
 #define RX_PIN_NUMBER  26
 #define TX_PIN_NUMBER  27
+#define RTS_PIN_NUMBER UART_PIN_DISCONNECTED
+#define CTS_PIN_NUMBER UART_PIN_DISCONNECTED
 #define HWFC           false
 
 
